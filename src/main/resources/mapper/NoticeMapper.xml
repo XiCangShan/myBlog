@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myall.myBlog.mapper.NoticeMapper">
+    <sql id="tb">notice</sql>
+    <insert id="insert">
+        insert into
+        <include refid="tb"/>
+        (notice_id, notice_title, notice_content,
+        notice_create_time, notice_update_time,
+        notice_status, notice_order)
+        values (#{noticeId,jdbcType=INTEGER}, #{noticeTitle,jdbcType=VARCHAR}, #{noticeContent,jdbcType=VARCHAR},
+        #{noticeCreateTime,jdbcType=TIMESTAMP}, #{noticeUpdateTime,jdbcType=TIMESTAMP},
+        #{noticeStatus,jdbcType=INTEGER}, #{noticeOrder,jdbcType=INTEGER})
+    </insert>
+    <update id="update">
+        update
+        <include refid="tb"/>
+        <set>
+            <if test="noticeTitle != null" > notice_title = #{noticeTitle,jdbcType=VARCHAR},</if>
+            <if test="noticeContent != null" >notice_content = #{noticeContent,jdbcType=VARCHAR},</if>
+            <if test="noticeCreateTime != null" >notice_create_time = #{noticeCreateTime,jdbcType=TIMESTAMP},</if>
+            <if test="noticeUpdateTime != null" >notice_update_time = #{noticeUpdateTime,jdbcType=TIMESTAMP},</if>
+            <if test="noticeStatus != null" >notice_status = #{noticeStatus,jdbcType=INTEGER},</if>
+            <if test="noticeOrder != null" >notice_order = #{noticeOrder,jdbcType=INTEGER},</if>
+        </set>
+        where notice_id=#{noticeId}
+    </update>
+    <delete id="deleteById">
+        delete from
+        <include refid="tb"/>
+        where notice_id=#{id}
+    </delete>
+    <select id="getNoticeById" resultType="com.myall.myBlog.pojo.Notice">
+        select * from
+        <include refid="tb"/>
+        where notice_id=#{id}
+    </select>
+    <select id="countNotice" resultType="java.lang.Integer">
+        select count(*) from
+        <include refid="tb"/>
+        <where>
+            <if test="status!=null">
+                notice_status=#{status}
+            </if>
+        </where>
+    </select>
+    <select id="getNoticeList" resultType="com.myall.myBlog.pojo.Notice">
+        select * from
+        <include refid="tb"/>
+        <where>
+            <if test="status!=null">
+                notice_status=#{status}
+            </if>
+        </where>
+        order by notice_status ASC, notice_order DESC, notice_id ASC
+    </select>
+
+
+</mapper>

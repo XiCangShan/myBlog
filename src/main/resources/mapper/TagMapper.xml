@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myall.myBlog.mapper.TagMapper">
+<sql id="tb">tag</sql>
+    <insert id="insert">
+        insert into <include refid="tb"/>
+        (tag_name, tag_description)
+        values (#{tagName,jdbcType=VARCHAR}, #{tagDescription,jdbcType=VARCHAR})
+    </insert>
+    <update id="update">
+        update
+        <include refid="tb"/>
+        <set>
+            <if test="tagName != null" >
+                tag_name = #{tagName,jdbcType=VARCHAR},
+            </if>
+            <if test="tagDescription != null" >
+                tag_description = #{tagDescription,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where tag_id=#{tagId}
+    </update>
+    <delete id="deleteById">
+        delete from
+        <include refid="tb"/>
+         where tag_id=#{id}
+    </delete>
+    <select id="getTagById" resultType="com.myall.myBlog.pojo.Tag">
+        select * from
+        <include refid="tb"/>
+        where tag_id=#{id}
+    </select>
+    <select id="getTagByName" resultType="com.myall.myBlog.pojo.Tag">
+        select * from
+        <include refid="tb"/>
+        where tag_name=#{name}
+        limit 1
+    </select>
+    <select id="countTag" resultType="java.lang.Integer">
+        select count(*) from
+        <include refid="tb"/>
+    </select>
+    <select id="getTagList" resultType="com.myall.myBlog.pojo.Tag">
+        select * from
+        <include refid="tb"/>
+    </select>
+
+</mapper>

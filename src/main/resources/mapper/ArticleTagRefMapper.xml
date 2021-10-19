@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myall.myBlog.mapper.ArticleTagRefMapper">
+    <sql id="tb">article_tag_ref</sql>
+    <insert id="insert">
+        insert into <include refid="tb"/>
+        (article_id,tag_id)
+        values (#{articleId},#{tagId})
+    </insert>
+    <delete id="deleteByTagId">
+        delete from
+        <include refid="tb"/>
+        where tag_id=#{id}
+    </delete>
+    <delete id="deleteByArticleId">
+        delete from
+        <include refid="tb"/>
+        where article_id=#{id}
+    </delete>
+    <select id="countArticleByTagId" resultType="java.lang.Integer">
+        select count(*)
+        from <include refid="tb"/>
+        where tag_id=#{id}
+    </select>
+    <select id="getTagListByArticleId" resultType="com.myall.myBlog.pojo.Tag">
+        select tag.*
+        from <include refid="tb"/>,tag
+        where
+        article_tag_ref.article_id=#{id} and
+        article_tag_ref.tag_id=tag.tag_id
+    </select>
+
+</mapper>
