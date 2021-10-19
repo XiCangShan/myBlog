@@ -6,5 +6,6 @@ public class Gittest {
         System.out.println("test v1.01   debug");
         System.out.println("test v1.02 hot-fix");
         System.out.println("test v1.02 push test");
+        System.out.println("test v1.02 pull test");
     }
 }
